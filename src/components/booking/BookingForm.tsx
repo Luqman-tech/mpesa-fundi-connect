@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -48,6 +47,7 @@ const BookingForm = () => {
             service: formData.service,
             location: formData.location,
             date: formData.date,
+            created_at: new Date().toISOString().split('T')[0],
             status: 'pending'
           }
         ]);
