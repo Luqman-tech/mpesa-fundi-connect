@@ -11,9 +11,11 @@ export type Database = {
     Tables: {
       bookings: {
         Row: {
+          amount: number | null
           client_id: string | null
           created_at: string
           date: string | null
+          description: string | null
           fundi_id: string | null
           id: string
           location: string | null
@@ -25,9 +27,11 @@ export type Database = {
           payment_date: string | null
         }
         Insert: {
+          amount?: number | null
           client_id?: string | null
-          created_at?: string
+          created_at: string
           date?: string | null
+          description?: string | null
           fundi_id?: string | null
           id?: string
           location?: string | null
@@ -39,9 +43,11 @@ export type Database = {
           payment_date?: string | null
         }
         Update: {
+          amount?: number | null
           client_id?: string | null
           created_at?: string
           date?: string | null
+          description?: string | null
           fundi_id?: string | null
           id?: string
           location?: string | null
@@ -106,6 +112,63 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      payments: {
+        Row: {
+          amount: number | null
+          booking_id: string | null
+          created_at: string
+          id: string
+          method: string | null
+          mpesa_ref: string | null
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          amount?: number | null
+          booking_id?: string | null
+          created_at?: string
+          id?: string
+          method?: string | null
+          mpesa_ref?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number | null
+          booking_id?: string | null
+          created_at?: string
+          id?: string
+          method?: string | null
+          mpesa_ref?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          category_id: string
+          description: string | null
+          icon_url: string | null
+          id: string
+          name: string | null
+        }
+        Insert: {
+          category_id?: string
+          description?: string | null
+          icon_url?: string | null
+          id?: string
+          name?: string | null
+        }
+        Update: {
+          category_id?: string
+          description?: string | null
+          icon_url?: string | null
+          id?: string
+          name?: string | null
+        }
+        Relationships: []
       }
       users: {
         Row: {

@@ -1,8 +1,8 @@
+
+import { ArrowRight, Shield, Clock, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { MessageCircle, Star, Users } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
-import { whatsappClient } from "@/integrations/whatsapp/client";
 
 const Hero = () => {
   const { user } = useAuth();
@@ -10,85 +10,129 @@ const Hero = () => {
 
   const handleGetStarted = () => {
     if (user) {
-      navigate('/dashboard');
+      navigate("/dashboard");
     } else {
-      navigate('/auth');
-    }
-  };
-
-  const handleWhatsApp = () => {
-    try {
-      whatsappClient.openDefaultChat();
-    } catch (error) {
-      console.error('Failed to open WhatsApp:', error);
-      // Fallback to direct WhatsApp link
-      window.open('https://wa.me/254700000000', '_blank');
+      navigate("/auth");
     }
   };
 
   return (
-    <section className="bg-gradient-to-r from-green-50 to-blue-50 py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
-          <div>
-            <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
-              Find Trusted <span className="text-green-600">Service Providers</span> in Kenya
-            </h1>
-            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              Connect with verified fundis for home repairs, cleaning, tutoring, and more. 
-              Book instantly via WhatsApp and pay securely with M-Pesa.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 mb-12">
+    <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-emerald-50">
+      {/* Background decoration */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+      <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl"></div>
+      
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="space-y-8">
+            <div className="space-y-6">
+              <div className="inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-gray-200 shadow-sm">
+                <span className="text-sm font-medium text-gray-700">🚀 Trusted by 10,000+ customers</span>
+              </div>
+              
+              <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
+                Find Skilled
+                <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent block">
+                  Fundis Near You
+                </span>
+              </h1>
+              
+              <p className="text-xl text-gray-600 leading-relaxed max-w-lg">
+                Connect with verified local professionals for all your home and business needs. 
+                Fast, reliable, and affordable services at your fingertips.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4">
               <Button 
-                size="lg" 
-                className="bg-green-600 hover:bg-green-700 text-lg px-8 py-3"
+                size="lg"
                 onClick={handleGetStarted}
+                className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
               >
-                {user ? 'Go to Dashboard' : 'Book a Service'}
+                {user ? "Go to Dashboard" : "Get Started"}
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
+              
               <Button 
-                size="lg" 
                 variant="outline" 
-                className="text-lg px-8 py-3 border-green-600 text-green-600 hover:bg-green-50"
-                onClick={handleWhatsApp}
+                size="lg"
+                className="border-2 border-gray-200 hover:border-primary hover:text-primary bg-white/80 backdrop-blur-sm"
               >
-                <MessageCircle className="w-5 h-5 mr-2" />
-                WhatsApp Us
+                Learn More
               </Button>
             </div>
 
-            <div className="flex items-center gap-8 text-sm text-gray-600">
-              <div className="flex items-center gap-2">
-                <Users className="w-5 h-5 text-green-600" />
-                <span>500+ Verified Providers</span>
+            {/* Trust indicators */}
+            <div className="grid grid-cols-3 gap-6 pt-8">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <Shield className="w-6 h-6 text-primary" />
+                </div>
+                <p className="text-sm font-medium text-gray-700">Verified Professionals</p>
               </div>
-              <div className="flex items-center gap-2">
-                <Star className="w-5 h-5 text-yellow-500" />
-                <span>4.7/5 Average Rating</span>
+              
+              <div className="text-center">
+                <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <Clock className="w-6 h-6 text-secondary" />
+                </div>
+                <p className="text-sm font-medium text-gray-700">Quick Response</p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <Users className="w-6 h-6 text-accent" />
+                </div>
+                <p className="text-sm font-medium text-gray-700">24/7 Support</p>
               </div>
             </div>
           </div>
 
-          <div className="mt-12 lg:mt-0">
-            <div className="relative">
-              <img
-                src="/placeholder.svg"
-                alt="Service providers at work"
-                className="rounded-2xl shadow-2xl w-full h-96 object-cover"
-              />
-              <div className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-lg p-4 max-w-xs">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                    <MessageCircle className="w-6 h-6 text-green-600" />
+          <div className="relative">
+            <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-gray-100">
+              <div className="space-y-6">
+                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                      <span className="text-white font-semibold text-sm">JM</span>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">John Mechanic</p>
+                      <p className="text-sm text-gray-500">Car Repair Specialist</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-semibold text-gray-900">Quick Response</p>
-                    <p className="text-sm text-gray-600">Get matched in minutes</p>
+                  <div className="text-right">
+                    <div className="flex items-center">
+                      <span className="text-yellow-400">★★★★★</span>
+                    </div>
+                    <p className="text-sm text-gray-500">4.9 rating</p>
                   </div>
                 </div>
+                
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Response time:</span>
+                    <span className="font-semibold text-secondary">30 mins</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Completed jobs:</span>
+                    <span className="font-semibold text-primary">1,247</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Location:</span>
+                    <span className="font-semibold text-gray-900">2.3 km away</span>
+                  </div>
+                </div>
+                
+                <Button className="w-full bg-gradient-to-r from-primary to-secondary text-white">
+                  Book Now - KSh 2,500
+                </Button>
               </div>
             </div>
+            
+            {/* Floating elements */}
+            <div className="absolute -top-6 -right-6 w-20 h-20 bg-secondary/20 rounded-full blur-xl"></div>
+            <div className="absolute -bottom-6 -left-6 w-16 h-16 bg-primary/20 rounded-full blur-xl"></div>
           </div>
         </div>
       </div>

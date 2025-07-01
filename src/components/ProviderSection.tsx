@@ -1,101 +1,181 @@
 
-import { Smartphone, DollarSign, TrendingUp, Shield } from "lucide-react";
+import { TrendingUp, Clock, CreditCard, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 const ProviderSection = () => {
   const benefits = [
     {
-      icon: Smartphone,
-      title: "Easy Setup",
-      description: "Register and start earning through WhatsApp in minutes"
-    },
-    {
-      icon: DollarSign,
-      title: "Keep 85% Earnings",
-      description: "Low platform fees mean more money in your pocket"
-    },
-    {
       icon: TrendingUp,
       title: "Grow Your Business",
-      description: "Access analytics and tools to expand your client base"
+      description: "Access more customers and increase your income with our platform",
+      color: "from-emerald-500 to-teal-500",
+    },
+    {
+      icon: Clock,
+      title: "Flexible Schedule",
+      description: "Work when you want and manage your own availability",
+      color: "from-blue-500 to-cyan-500",
+    },
+    {
+      icon: CreditCard,
+      title: "Secure Payments",
+      description: "Get paid quickly and securely through our payment system",
+      color: "from-purple-500 to-indigo-500",
     },
     {
       icon: Shield,
-      title: "Verified Profile",
-      description: "Build trust with verified credentials and reviews"
-    }
+      title: "Verified Platform",
+      description: "Build trust with customers through our verification system",
+      color: "from-amber-500 to-orange-500",
+    },
+  ];
+
+  const testimonials = [
+    {
+      name: "Michael Kamau",
+      role: "Electrician",
+      content: "FundisBot has transformed my business. I now get 3x more clients than before!",
+      rating: 5,
+      avatar: "MK",
+    },
+    {
+      name: "Grace Wanjiku",
+      role: "House Cleaner",
+      content: "The platform is easy to use and payments are always on time. Highly recommend!",
+      rating: 5,
+      avatar: "GW",
+    },
   ];
 
   return (
-    <section id="providers" className="py-16 bg-gradient-to-br from-blue-50 to-indigo-100">
+    <section id="providers" className="py-16 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
-          <div className="mb-12 lg:mb-0">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-              Grow Your Service Business
-            </h2>
-            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              Join hundreds of service providers earning more by connecting with clients 
-              through our WhatsApp-based platform. No complicated apps or websites needed.
-            </p>
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center px-4 py-2 bg-secondary/10 rounded-full mb-6">
+            <span className="text-sm font-semibold text-secondary">For Service Providers</span>
+          </div>
+          <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 mb-6">
+            Join Our
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"> Provider Network</span>
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Turn your skills into a thriving business. Connect with customers who need your services 
+            and grow your income with FundisBot.
+          </p>
+        </div>
 
-            <div className="space-y-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-16">
+          {/* Benefits */}
+          <div className="space-y-8">
+            <h3 className="text-2xl font-bold text-gray-900 mb-8">Why Choose FundisBot?</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {benefits.map((benefit, index) => (
-                <div key={index} className="flex items-start space-x-4">
-                  <div className="bg-blue-100 rounded-lg p-2 flex-shrink-0">
-                    <benefit.icon className="w-5 h-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">{benefit.title}</h3>
-                    <p className="text-gray-600">{benefit.description}</p>
-                  </div>
-                </div>
+                <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                  <CardContent className="p-6">
+                    <div className={`w-12 h-12 bg-gradient-to-br ${benefit.color} rounded-xl flex items-center justify-center mb-4`}>
+                      <benefit.icon className="w-6 h-6 text-white" />
+                    </div>
+                    <h4 className="text-lg font-semibold text-gray-900 mb-2">{benefit.title}</h4>
+                    <p className="text-gray-600 text-sm">{benefit.description}</p>
+                  </CardContent>
+                </Card>
               ))}
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
-                Start Earning Today
-              </Button>
-              <Button variant="outline" size="lg" className="border-blue-600 text-blue-600 hover:bg-blue-50">
-                Learn More
-              </Button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <Card className="transform hover:scale-105 transition-transform duration-300">
-              <CardContent className="p-6 text-center">
-                <div className="text-3xl font-bold text-green-600 mb-2">KES 45K</div>
-                <div className="text-sm text-gray-600">Avg. Monthly Earnings</div>
-                <div className="text-xs text-gray-500 mt-1">Top 20% of providers</div>
-              </CardContent>
-            </Card>
+          {/* Provider mockup */}
+          <div className="relative">
+            <div className="bg-gradient-to-br from-slate-50 to-gray-100 rounded-3xl p-8 shadow-2xl">
+              <div className="bg-white rounded-2xl p-6 shadow-lg mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="text-lg font-semibold text-gray-900">Your Earnings</h4>
+                  <span className="text-sm text-gray-500">This month</span>
+                </div>
+                <div className="text-3xl font-bold text-primary mb-2">KSh 89,500</div>
+                <div className="flex items-center text-sm text-secondary">
+                  <TrendingUp className="w-4 h-4 mr-1" />
+                  <span>+23% from last month</span>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl p-6 shadow-lg">
+                <h4 className="text-lg font-semibold text-gray-900 mb-4">Recent Bookings</h4>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                    <div>
+                      <p className="font-medium text-gray-900">Car Service</p>
+                      <p className="text-sm text-gray-500">Tomorrow, 10:00 AM</p>
+                    </div>
+                    <span className="text-primary font-semibold">KSh 4,500</span>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-secondary/10 rounded-xl">
+                    <div>
+                      <p className="font-medium text-gray-900">Home Cleaning</p>
+                      <p className="text-sm text-gray-500">Today, 2:00 PM</p>
+                    </div>
+                    <span className="text-secondary font-semibold">KSh 2,800</span>
+                  </div>
+                </div>
+              </div>
+            </div>
             
-            <Card className="transform hover:scale-105 transition-transform duration-300">
-              <CardContent className="p-6 text-center">
-                <div className="text-3xl font-bold text-blue-600 mb-2">4.8★</div>
-                <div className="text-sm text-gray-600">Provider Rating</div>
-                <div className="text-xs text-gray-500 mt-1">Average across platform</div>
-              </CardContent>
-            </Card>
-            
-            <Card className="transform hover:scale-105 transition-transform duration-300">
-              <CardContent className="p-6 text-center">
-                <div className="text-3xl font-bold text-purple-600 mb-2">24/7</div>
-                <div className="text-sm text-gray-600">Support Available</div>
-                <div className="text-xs text-gray-500 mt-1">WhatsApp assistance</div>
-              </CardContent>
-            </Card>
-            
-            <Card className="transform hover:scale-105 transition-transform duration-300">
-              <CardContent className="p-6 text-center">
-                <div className="text-3xl font-bold text-orange-600 mb-2">15%</div>
-                <div className="text-sm text-gray-600">Platform Fee</div>
-                <div className="text-xs text-gray-500 mt-1">Industry leading low rate</div>
-              </CardContent>
-            </Card>
+            {/* Floating elements */}
+            <div className="absolute -top-6 -right-6 w-20 h-20 bg-primary/20 rounded-full blur-xl"></div>
+            <div className="absolute -bottom-6 -left-6 w-16 h-16 bg-secondary/20 rounded-full blur-xl"></div>
+          </div>
+        </div>
+
+        {/* Testimonials */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-gray-900 text-center mb-8">What Our Providers Say</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <Card key={index} className="border-0 shadow-lg">
+                <CardContent className="p-8">
+                  <div className="flex items-center mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <span key={i} className="text-yellow-400 text-lg">★</span>
+                    ))}
+                  </div>
+                  <p className="text-gray-700 mb-6 italic">"{testimonial.content}"</p>
+                  <div className="flex items-center">
+                    <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mr-4">
+                      <span className="text-white font-semibold">{testimonial.avatar}</span>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">{testimonial.name}</p>
+                      <p className="text-sm text-gray-500">{testimonial.role}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="text-center">
+          <div className="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-3xl p-12 border border-gray-100">
+            <h3 className="text-3xl font-bold text-gray-900 mb-4">Ready to Start Earning?</h3>
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              Join thousands of successful service providers who have grown their business with FundisBot.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                size="lg"
+                className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+              >
+                Become a Provider
+              </Button>
+              <Button 
+                variant="outline" 
+                size="lg"
+                className="border-2 border-gray-200 hover:border-primary hover:text-primary"
+              >
+                Learn More
+              </Button>
+            </div>
           </div>
         </div>
       </div>
