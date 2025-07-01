@@ -88,7 +88,6 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Hero Image/Illustration */}
           <div className="relative">
             <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-gray-100">
               <div className="space-y-6">
@@ -113,7 +112,7 @@ const Hero = () => {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Response time:</span>
-                    <span className="font-semibold text-secondary">< 30 mins</span>
+                    <span className="font-semibold text-secondary">30 mins</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Completed jobs:</span>
