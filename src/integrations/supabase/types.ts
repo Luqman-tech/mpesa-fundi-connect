@@ -19,6 +19,10 @@ export type Database = {
           location: string | null
           service: string | null
           status: string | null
+          description: string | null
+          amount: number | null
+          payment_reference: string | null
+          payment_date: string | null
         }
         Insert: {
           client_id?: string | null
@@ -29,6 +33,10 @@ export type Database = {
           location?: string | null
           service?: string | null
           status?: string | null
+          description?: string | null
+          amount?: number | null
+          payment_reference?: string | null
+          payment_date?: string | null
         }
         Update: {
           client_id?: string | null
@@ -39,6 +47,10 @@ export type Database = {
           location?: string | null
           service?: string | null
           status?: string | null
+          description?: string | null
+          amount?: number | null
+          payment_reference?: string | null
+          payment_date?: string | null
         }
         Relationships: [
           {

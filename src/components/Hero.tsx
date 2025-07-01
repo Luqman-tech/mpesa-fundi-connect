@@ -1,8 +1,8 @@
-
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Star, Users } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import { whatsappClient } from "@/integrations/whatsapp/client";
 
 const Hero = () => {
   const { user } = useAuth();
@@ -17,7 +17,13 @@ const Hero = () => {
   };
 
   const handleWhatsApp = () => {
-    window.open('https://wa.me/254700000000', '_blank');
+    try {
+      whatsappClient.openDefaultChat();
+    } catch (error) {
+      console.error('Failed to open WhatsApp:', error);
+      // Fallback to direct WhatsApp link
+      window.open('https://wa.me/254700000000', '_blank');
+    }
   };
 
   return (

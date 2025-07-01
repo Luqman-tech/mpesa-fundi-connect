@@ -1,12 +1,17 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 
+interface UserData {
+  name?: string;
+  phone?: string;
+  role?: string;
+}
+
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  signUp: (email: string, password: string, userData: any) => Promise<void>;
+  signUp: (email: string, password: string, userData: UserData) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
@@ -43,23 +48,67 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const signUp = async (email: string, password: string, userData: any) => {
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: userData
+  const signUp = async (email: string, password: string, userData: UserData) => {
+    try {
+      console.log('Attempting to sign up user:', { email, userData });
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: userData
+        }
+      });
+      if (error) {
+        console.error('Sign up error:', error);
+        throw error;
       }
-    });
-    if (error) throw error;
+      
+      // Manually create user profile if the trigger doesn't work
+      if (data.user) {
+        try {
+          const { error: profileError } = await supabase
+            .from('users')
+            .insert([
+              {
+                id: data.user.id,
+                name: userData.name,
+                phone: userData.phone,
+                role: userData.role
+              }
+            ]);
+          
+          if (profileError) {
+            console.warn('Failed to create user profile:', profileError);
+            // Don't throw error here as the user account was created successfully
+          }
+        } catch (profileError) {
+          console.warn('Profile creation failed:', profileError);
+        }
+      }
+      
+      console.log('Sign up successful');
+    } catch (error) {
+      console.error('Sign up failed:', error);
+      throw error;
+    }
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    });
-    if (error) throw error;
+    try {
+      console.log('Attempting to sign in user:', { email });
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+      if (error) {
+        console.error('Sign in error:', error);
+        throw error;
+      }
+      console.log('Sign in successful');
+    } catch (error) {
+      console.error('Sign in failed:', error);
+      throw error;
+    }
   };
 
   const signOut = async () => {

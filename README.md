@@ -1,73 +1,145 @@
-# Welcome to your Lovable project
+# M-Pesa Fundi Connect
 
-## Project info
+A platform connecting skilled professionals and artisans with customers through M-Pesa integration.
 
-**URL**: https://lovable.dev/projects/82423588-d10c-4cb4-92b9-c8214c76dce0
+## 🚀 Quick Start
 
-## How can I edit this code?
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+- Supabase account
 
-There are several ways of editing your application.
+### Local Development
 
-**Use Lovable**
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd mpesa-fundi-connect
+   ```
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/82423588-d10c-4cb4-92b9-c8214c76dce0) and start prompting.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-Changes made via Lovable will be committed automatically to this repo.
+3. **Set up environment variables**
+   ```bash
+   cp env.example .env.local
+   ```
+   
+   Edit `.env.local` and add your Supabase credentials:
+   ```env
+   VITE_SUPABASE_URL=your_supabase_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
 
-**Use your preferred IDE**
+4. **Start development server**
+   ```bash
+   npm run dev
+   ```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+5. **Open your browser**
+   Navigate to `http://localhost:8080`
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🏗️ Build Commands
 
-Follow these steps:
+```bash
+# Development build
+npm run build:dev
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Production build
+npm run build:prod
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+# Preview production build
+npm run preview
 ```
 
-**Edit a file directly in GitHub**
+## 🚀 Deployment
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Option 1: Vercel (Recommended)
 
-**Use GitHub Codespaces**
+1. **Install Vercel CLI**
+   ```bash
+   npm i -g vercel
+   ```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+2. **Deploy**
+   ```bash
+   vercel
+   ```
 
-## What technologies are used for this project?
+3. **Set environment variables in Vercel dashboard**
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
 
-This project is built with:
+### Option 2: Netlify
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+1. **Connect your repository to Netlify**
+2. **Set build settings:**
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+3. **Set environment variables in Netlify dashboard**
 
-## How can I deploy this project?
+### Option 3: Static Hosting (GitHub Pages, etc.)
 
-Simply open [Lovable](https://lovable.dev/projects/82423588-d10c-4cb4-92b9-c8214c76dce0) and click on Share -> Publish.
+1. **Build the project**
+   ```bash
+   npm run build:prod
+   ```
 
-## Can I connect a custom domain to my Lovable project?
+2. **Upload the `dist` folder to your hosting provider**
 
-Yes, you can!
+## 🔧 Environment Variables
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `VITE_SUPABASE_URL` | Your Supabase project URL | Yes |
+| `VITE_SUPABASE_ANON_KEY` | Your Supabase anonymous key | Yes |
+| `VITE_APP_NAME` | Application name | No |
+| `VITE_APP_URL` | Application URL | No |
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 🛠️ Tech Stack
+
+- **Frontend**: React 18, TypeScript, Vite
+- **UI**: shadcn/ui, Tailwind CSS
+- **Backend**: Supabase
+- **Authentication**: Supabase Auth
+- **Database**: PostgreSQL (via Supabase)
+- **Deployment**: Vercel/Netlify ready
+
+## 📁 Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+│   ├── auth/           # Authentication components
+│   ├── booking/        # Booking related components
+│   └── ui/             # shadcn/ui components
+├── hooks/              # Custom React hooks
+├── integrations/       # External service integrations
+│   └── supabase/       # Supabase client and types
+├── lib/                # Utility functions
+├── pages/              # Page components
+└── main.tsx           # Application entry point
+```
+
+## 🔒 Security
+
+- Environment variables are used for sensitive data
+- Supabase Row Level Security (RLS) is enabled
+- No sensitive data is exposed in the frontend
+
+## 📝 License
+
+This project is licensed under the MIT License.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## 📞 Support
+
+For support, email support@mpesa-fundi-connect.com or create an issue in this repository.

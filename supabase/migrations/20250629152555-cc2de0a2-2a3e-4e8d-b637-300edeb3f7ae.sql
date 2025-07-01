@@ -1,10 +1,33 @@
-
 -- First, let's add proper RLS policies and fix the existing tables
 
 -- Enable RLS on all tables
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.bookings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.fundis ENABLE ROW LEVEL SECURITY;
+
+-- Add payment-related columns to bookings table if they don't exist
+DO $$ 
+BEGIN
+    -- Add amount column if it doesn't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'bookings' AND column_name = 'amount') THEN
+        ALTER TABLE public.bookings ADD COLUMN amount DECIMAL(10,2) DEFAULT 0;
+    END IF;
+    
+    -- Add description column if it doesn't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'bookings' AND column_name = 'description') THEN
+        ALTER TABLE public.bookings ADD COLUMN description TEXT;
+    END IF;
+    
+    -- Add payment_reference column if it doesn't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'bookings' AND column_name = 'payment_reference') THEN
+        ALTER TABLE public.bookings ADD COLUMN payment_reference VARCHAR(255);
+    END IF;
+    
+    -- Add payment_date column if it doesn't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'bookings' AND column_name = 'payment_date') THEN
+        ALTER TABLE public.bookings ADD COLUMN payment_date TIMESTAMP WITH TIME ZONE;
+    END IF;
+END $$;
 
 -- Create RLS policies for users table
 CREATE POLICY "Users can view their own profile" ON public.users
@@ -68,6 +91,8 @@ CREATE OR REPLACE TRIGGER on_auth_user_created
 -- Add some indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_bookings_client_id ON public.bookings(client_id);
 CREATE INDEX IF NOT EXISTS idx_bookings_fundi_id ON public.bookings(fundi_id);
+CREATE INDEX IF NOT EXISTS idx_bookings_status ON public.bookings(status);
+CREATE INDEX IF NOT EXISTS idx_bookings_payment_reference ON public.bookings(payment_reference);
 CREATE INDEX IF NOT EXISTS idx_fundis_location ON public.fundis(location);
 CREATE INDEX IF NOT EXISTS idx_fundis_skill ON public.fundis(skill);
 CREATE INDEX IF NOT EXISTS idx_fundis_status ON public.fundis(status);
