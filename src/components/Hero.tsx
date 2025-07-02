@@ -1,4 +1,3 @@
-
 import { ArrowRight, Shield, Clock, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/components/auth/AuthProvider";
@@ -58,6 +57,10 @@ const Hero = () => {
                 variant="outline" 
                 size="lg"
                 className="border-2 border-gray-200 hover:border-primary hover:text-primary bg-white/80 backdrop-blur-sm"
+                onClick={() => {
+                  const section = document.getElementById('how-it-works');
+                  if (section) section.scrollIntoView({ behavior: 'smooth' });
+                }}
               >
                 Learn More
               </Button>

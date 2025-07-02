@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { supabase } from '@/integrations/supabase/client';
@@ -13,9 +12,15 @@ interface Booking {
   date: string;
   status: string;
   created_at: string;
+  amount?: number;
+  commission?: number;
 }
 
-const BookingsList = () => {
+interface BookingsListProps {
+  role?: 'client' | 'fundi';
+}
+
+const BookingsList = ({ role = 'client' }: BookingsListProps) => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
@@ -25,12 +30,14 @@ const BookingsList = () => {
 
     const fetchBookings = async () => {
       try {
-        const { data, error } = await supabase
-          .from('bookings')
-          .select('*')
-          .eq('client_id', user.id)
-          .order('created_at', { ascending: false });
-
+        let query = supabase.from('bookings').select('*');
+        if (role === 'fundi') {
+          query = query.eq('fundi_id', user.id);
+        } else {
+          query = query.eq('client_id', user.id);
+        }
+        query = query.order('created_at', { ascending: false });
+        const { data, error } = await query;
         if (error) throw error;
         setBookings(data || []);
       } catch (error) {
@@ -51,7 +58,7 @@ const BookingsList = () => {
           event: '*',
           schema: 'public',
           table: 'bookings',
-          filter: `client_id=eq.${user.id}`
+          filter: `${role === 'fundi' ? 'fundi_id' : 'client_id'}=eq.${user.id}`
         },
         () => {
           fetchBookings();
@@ -62,7 +69,7 @@ const BookingsList = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [user]);
+  }, [user, role]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -114,6 +121,13 @@ const BookingsList = () => {
                 <Calendar className="w-4 h-4" />
                 <span>{new Date(booking.date).toLocaleDateString()}</span>
               </div>
+              {typeof booking.amount === 'number' && typeof booking.commission === 'number' && (
+                <div className="pt-2">
+                  <p>Total: <span className="font-semibold">KES {booking.amount.toLocaleString()}</span></p>
+                  <p>Commission (10%): <span className="font-semibold text-red-600">KES {booking.commission.toLocaleString()}</span></p>
+                  <p>Your Earnings: <span className="font-semibold text-green-600">KES {(booking.amount - booking.commission).toLocaleString()}</span></p>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>

@@ -1,9 +1,12 @@
-
 import { TrendingUp, Clock, CreditCard, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useAuth } from "@/components/auth/AuthProvider";
+import { whatsappClient } from "@/integrations/whatsapp/client";
 
 const ProviderSection = () => {
+  const { user } = useAuth();
+
   const benefits = [
     {
       icon: TrendingUp,
@@ -47,6 +50,40 @@ const ProviderSection = () => {
       avatar: "GW",
     },
   ];
+
+  const handleContactFundi = async (fundi) => {
+    if (!user) {
+      alert('Please log in to contact fundis');
+      return;
+    }
+
+    try {
+      // Record the lead first
+      await fetch('http://localhost:5000/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          client_id: user.id,
+          fundi_id: fundi.id,
+          client_phone: user.user_metadata?.phone || user.phone,
+          fundi_phone: fundi.phone,
+        }),
+      });
+      
+      // Then open WhatsApp
+      whatsappClient.openChat({ 
+        phone: fundi.phone, 
+        message: 'Hi, I need your service.' 
+      });
+    } catch (error) {
+      console.error('Error recording lead:', error);
+      // Still open WhatsApp even if lead recording fails
+      whatsappClient.openChat({ 
+        phone: fundi.phone, 
+        message: 'Hi, I need your service.' 
+      });
+    }
+  };
 
   return (
     <section id="providers" className="py-16 lg:py-24 bg-white">

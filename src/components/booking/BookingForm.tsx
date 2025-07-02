@@ -93,24 +93,11 @@ const BookingForm = () => {
     try {
       const { data: existingBookings, error: checkError } = await supabase
         .from('bookings')
-<<<<<<< HEAD
         .select('id, status')
         .eq('client_id', user.id)
         .eq('service', formData.service)
         .eq('date', formData.date)
         .eq('location', formData.location);
-=======
-        .insert([
-          {
-            client_id: user.id,
-            service: formData.service,
-            location: formData.location,
-            date: formData.date,
-            created_at: new Date().toISOString().split('T')[0],
-            status: 'pending'
-          }
-        ]);
->>>>>>> 5ebf92b4aa0c219e28fe5b933ab35dc32579f60b
 
       if (checkError) throw checkError;
 
