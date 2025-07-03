@@ -13,6 +13,10 @@ app.use(express.json());
 // M-Pesa credentials from .env
 const { MPESA_CONSUMER_KEY, MPESA_CONSUMER_SECRET, MPESA_SHORTCODE, MPESA_PASSKEY } = process.env;
 
+// Configurable subscription fee and commission rate
+const FUNDI_SUBSCRIPTION_FEE = parseInt(process.env.FUNDI_SUBSCRIPTION_FEE, 10) || 1000;
+const COMMISSION_RATE = parseFloat(process.env.COMMISSION_RATE) || 0.10;
+
 // Get M-Pesa access token
 async function getAccessToken() {
   const url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
@@ -95,9 +99,9 @@ app.post('/api/mpesa/status', async (req, res) => {
 app.post('/api/fundi/subscribe', async (req, res) => {
   try {
     const { phone, fundi_id } = req.body;
-    const amount = 150;
+    const amount = FUNDI_SUBSCRIPTION_FEE;
     const reference = `FUNDISUB-${fundi_id}-${Date.now()}`;
-    const description = 'Fundi Weekly Subscription';
+    const description = 'Fundi One-Time Subscription';
 
     // Initiate M-Pesa payment (reuse your STK push logic)
     const accessToken = await getAccessToken();
@@ -155,7 +159,7 @@ app.post('/api/mpesa/callback', async (req, res) => {
         // Insert into subscriptions table
         await supabase.from('subscriptions').insert([{
           fundi_id,
-          amount: 150,
+          amount: FUNDI_SUBSCRIPTION_FEE,
           start_date: now.toISOString(),
           end_date: expiry.toISOString(),
           payment_reference: mpesaReceiptNumber
@@ -194,7 +198,7 @@ app.post('/api/mpesa/callback', async (req, res) => {
         if (!booking || error) return res.sendStatus(400);
         
         const amount = booking.amount;
-        const commission = Math.round(amount * 0.10); // 10% commission
+        const commission = Math.round(amount * COMMISSION_RATE); // Configurable commission
         const mpesaReceiptNumber = stkCallback.CallbackMetadata.Item.find(i => i.Name === 'MpesaReceiptNumber')?.Value;
 
         // Update booking with payment info and commission

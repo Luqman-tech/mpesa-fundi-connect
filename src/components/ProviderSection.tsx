@@ -182,7 +182,11 @@ const ProviderSection = () => {
                     </div>
                     <div>
                       <p className="font-semibold text-gray-900">{testimonial.name}</p>
-                      <p className="text-sm text-gray-500">{testimonial.role}</p>
+                      {fundi.verification_status === 'verified' ? (
+                        <span className="ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded">Verified</span>
+                      ) : (
+                        <span className="ml-2 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded">Unverified</span>
+                      )}
                     </div>
                   </div>
                 </CardContent>

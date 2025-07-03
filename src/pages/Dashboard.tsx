@@ -225,7 +225,7 @@ const Dashboard = () => {
             onClick={handleSubscribe}
             disabled={subscribing}
           >
-            {subscribing ? "Processing..." : "Subscribe for KES 150/week"}
+            {subscribing ? "Processing..." : "Subscribe for KES 1000 (one-time)"}
           </Button>
         )}
       </main>

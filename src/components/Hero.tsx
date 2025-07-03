@@ -127,7 +127,15 @@ const Hero = () => {
                   </div>
                 </div>
                 
-                <Button className="w-full bg-gradient-to-r from-primary to-secondary text-white">
+                <Button className="w-full bg-gradient-to-r from-primary to-secondary text-white"
+                  onClick={() => {
+                    if (user) {
+                      navigate("/bookings/new");
+                    } else {
+                      navigate("/auth?redirect=/bookings/new");
+                    }
+                  }}
+                >
                   Book Now - KSh 2,500
                 </Button>
               </div>
