@@ -427,27 +427,5 @@ app.get('/api/admin/stats', async (req, res) => {
   });
 });
 
-app.post('/api/services/search', async (req, res) => {
-  const { name, description } = req.body;
-  if (!name) {
-    return res.status(400).json({ error: 'Service name is required.' });
-  }
-  try {
-    // Search for services with similar name or description (case-insensitive)
-    let query = supabase.from('services').select('id, name, description, price');
-    query = query.ilike('name', `%${name}%`);
-    if (description) {
-      query = query.or(`description.ilike.%${description}%`);
-    }
-    const { data, error } = await query;
-    if (error) {
-      return res.status(500).json({ error: error.message });
-    }
-    res.json({ results: data || [] });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to search services.' });
-  }
-});
-
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);

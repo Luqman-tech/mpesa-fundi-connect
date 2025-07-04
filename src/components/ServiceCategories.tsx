@@ -1,6 +1,6 @@
+
 import { Wrench, Zap, Paintbrush, Car, Home, Laptop, Scissors, Camera } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { useState } from "react";
 
 const ServiceCategories = () => {
   const categories = [
@@ -70,12 +70,6 @@ const ServiceCategories = () => {
     },
   ];
 
-  const [showCustomForm, setShowCustomForm] = useState(false);
-  const [customService, setCustomService] = useState({ name: "", description: "" });
-  const [customResults, setCustomResults] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
   return (
     <section id="services" className="py-16 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -127,89 +121,12 @@ const ServiceCategories = () => {
 
         <div className="text-center mt-12">
           <p className="text-gray-600 mb-6">Can't find what you're looking for?</p>
-          {!showCustomForm ? (
-            <button
-              className="inline-flex items-center px-6 py-3 border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-xl font-semibold transition-all duration-300"
-              onClick={() => setShowCustomForm(true)}
-            >
-              Request Custom Service
-              <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
-            </button>
-          ) : (
-            <form
-              className="max-w-md mx-auto bg-white p-6 rounded-xl shadow space-y-4"
-              onSubmit={async (e) => {
-                e.preventDefault();
-                setLoading(true);
-                setError("");
-                setCustomResults([]);
-                try {
-                  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/services/search`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(customService),
-                  });
-                  const data = await res.json();
-                  if (data.error) setError(data.error);
-                  else setCustomResults(data.results || []);
-                } catch (err) {
-                  setError("Failed to fetch results.");
-                }
-                setLoading(false);
-              }}
-            >
-              <div>
-                <label className="block font-semibold mb-1">Service Needed</label>
-                <input
-                  type="text"
-                  className="w-full border rounded px-3 py-2"
-                  value={customService.name}
-                  onChange={e => setCustomService({ ...customService, name: e.target.value })}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">Description (optional)</label>
-                <textarea
-                  className="w-full border rounded px-3 py-2"
-                  value={customService.description}
-                  onChange={e => setCustomService({ ...customService, description: e.target.value })}
-                />
-              </div>
-              {error && <div className="text-red-500">{error}</div>}
-              <div className="flex gap-2 justify-center">
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-primary text-white rounded font-semibold"
-                  disabled={loading}
-                >
-                  {loading ? "Searching..." : "Find Providers"}
-                </button>
-                <button
-                  type="button"
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded font-semibold"
-                  onClick={() => setShowCustomForm(false)}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          )}
-          {customResults.length > 0 && (
-            <div className="mt-6">
-              <h3 className="font-bold mb-2">Matching Providers</h3>
-              <ul className="space-y-2">
-                {customResults.map((provider, idx) => (
-                  <li key={idx} className="border rounded p-3 bg-white">
-                    <div className="font-semibold">{provider.name}</div>
-                    <div className="text-gray-600 text-sm">{provider.description}</div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <button className="inline-flex items-center px-6 py-3 border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-xl font-semibold transition-all duration-300">
+            Request Custom Service
+            <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+          </button>
         </div>
       </div>
     </section>
