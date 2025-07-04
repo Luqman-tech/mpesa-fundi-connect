@@ -67,7 +67,7 @@ const MpesaPayment = ({ amount, reference, description, onSuccess, onError }: Mp
         description
       };
 
-      const response = await fetch('http://localhost:5000/api/mpesa/stkpush', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/mpesa/stkpush`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(paymentRequest)
@@ -121,7 +121,7 @@ const MpesaPayment = ({ amount, reference, description, onSuccess, onError }: Mp
       }
 
       try {
-        const response = await fetch('http://localhost:5000/api/mpesa/status', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/mpesa/status`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ checkoutRequestId: requestId })

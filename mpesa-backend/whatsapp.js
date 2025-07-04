@@ -11,7 +11,6 @@ async function sendWhatsApp(to, message) {
       to: `whatsapp:${to}`,
       body: message,
     });
-    console.log('WhatsApp message sent:', result.sid);
     return result;
   } catch (err) {
     console.error('WhatsApp send error:', err.message);

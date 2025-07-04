@@ -2,8 +2,8 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || "https://naqestrcommcpbspwuna.supabase.co";
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hcWVzdHJjb21tY3Bic3B3dW5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTExMjk4MTQsImV4cCI6MjA2NjcwNTgxNH0.S7gvFjd436deKHlpEmV5OmdE8j6wtMFsWiEemvYbslI";
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 // Validate environment variables in production
 if (import.meta.env.PROD) {

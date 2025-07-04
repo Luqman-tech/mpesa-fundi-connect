@@ -130,10 +130,6 @@ const BookingForm = () => {
         fundi_id: null // Explicitly set fundi_id to null since no fundi is assigned yet
       };
       
-      console.log('Attempting to insert booking data:', bookingData);
-      console.log('User ID:', user.id);
-      console.log('Form data:', formData);
-      
       // Validate that all required fields are present
       if (!bookingData.client_id) {
         throw new Error('Client ID is required');

@@ -50,7 +50,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signUp = async (email: string, password: string, userData: UserData) => {
     try {
-      console.log('Attempting to sign up user:', { email, userData });
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -59,7 +58,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
       });
       if (error) {
-        console.error('Sign up error:', error);
         throw error;
       }
       
@@ -78,35 +76,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             ]);
           
           if (profileError) {
-            console.warn('Failed to create user profile:', profileError);
             // Don't throw error here as the user account was created successfully
           }
         } catch (profileError) {
-          console.warn('Profile creation failed:', profileError);
+          // Don't throw error here as the user account was created successfully
         }
       }
-      
-      console.log('Sign up successful');
     } catch (error) {
-      console.error('Sign up failed:', error);
       throw error;
     }
   };
 
   const signIn = async (email: string, password: string) => {
     try {
-      console.log('Attempting to sign in user:', { email });
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password
       });
       if (error) {
-        console.error('Sign in error:', error);
         throw error;
       }
-      console.log('Sign in successful');
     } catch (error) {
-      console.error('Sign in failed:', error);
       throw error;
     }
   };

@@ -5,10 +5,24 @@ const cors = require('cors');
 require('dotenv').config();
 const supabase = require('./supabaseClient');
 const { sendWhatsApp } = require('./whatsapp');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const { body, validationResult } = require('express-validator');
 
 const app = express();
-app.use(cors());
+// Update CORS middleware to restrict allowed origins in production:
+const allowedOrigin = process.env.FRONTEND_URL || '*';
+app.use(cors({ origin: allowedOrigin }));
 app.use(express.json());
+app.use(helmet());
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use(limiter);
 
 // M-Pesa credentials from .env
 const { MPESA_CONSUMER_KEY, MPESA_CONSUMER_SECRET, MPESA_SHORTCODE, MPESA_PASSKEY } = process.env;
@@ -28,7 +42,16 @@ async function getAccessToken() {
 }
 
 // Initiate STK Push
-app.post('/api/mpesa/stkpush', async (req, res) => {
+app.post('/api/mpesa/stkpush', [
+  body('phone').isString().notEmpty(),
+  body('amount').isNumeric(),
+  body('reference').isString().notEmpty(),
+  body('description').isString().notEmpty()
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     const { phone, amount, reference, description } = req.body;
     const accessToken = await getAccessToken();
@@ -45,7 +68,7 @@ app.post('/api/mpesa/stkpush', async (req, res) => {
       PartyA: phone,
       PartyB: MPESA_SHORTCODE,
       PhoneNumber: phone,
-      CallBackURL: 'https://yourdomain.com/api/mpesa/callback', // Change to your backend callback
+      CallBackURL: `${process.env.BACKEND_URL}/api/mpesa/callback`,
       AccountReference: reference,
       TransactionDesc: description
     };
@@ -63,7 +86,13 @@ app.post('/api/mpesa/stkpush', async (req, res) => {
   }
 });
 
-app.post('/api/mpesa/status', async (req, res) => {
+app.post('/api/mpesa/status', [
+  body('checkoutRequestId').isString().notEmpty()
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     const { checkoutRequestId } = req.body;
     if (!checkoutRequestId) {
@@ -96,7 +125,14 @@ app.post('/api/mpesa/status', async (req, res) => {
   }
 });
 
-app.post('/api/fundi/subscribe', async (req, res) => {
+app.post('/api/fundi/subscribe', [
+  body('phone').isString().notEmpty(),
+  body('fundi_id').isString().notEmpty()
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     const { phone, fundi_id } = req.body;
     const amount = FUNDI_SUBSCRIPTION_FEE;
@@ -117,7 +153,7 @@ app.post('/api/fundi/subscribe', async (req, res) => {
       PartyA: phone,
       PartyB: MPESA_SHORTCODE,
       PhoneNumber: phone,
-      CallBackURL: `${process.env.BACKEND_URL}/api/mpesa/callback`, // Set this in your .env
+      CallBackURL: `${process.env.BACKEND_URL}/api/mpesa/callback`,
       AccountReference: reference,
       TransactionDesc: description
     };
@@ -392,4 +428,4 @@ app.get('/api/admin/stats', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`M-Pesa backend running on port ${PORT}`));
+app.listen(PORT);

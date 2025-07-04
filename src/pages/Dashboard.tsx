@@ -15,11 +15,11 @@ const Dashboard = () => {
     if (role !== 'fundi' || !user) return;
     const fetchFundiStats = async () => {
       // Fetch booking stats
-      const bookingResponse = await fetch(`http://localhost:5000/api/fundi/bookings-stats?fundi_id=${user.id}`);
+      const bookingResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/fundi/bookings-stats?fundi_id=${user.id}`);
       const bookingData = await bookingResponse.json();
       
       // Fetch lead stats
-      const leadResponse = await fetch(`http://localhost:5000/api/fundi/leads-stats?fundi_id=${user.id}`);
+      const leadResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/fundi/leads-stats?fundi_id=${user.id}`);
       const leadData = await leadResponse.json();
       
       if (!bookingData.error && !leadData.error) {
@@ -35,7 +35,7 @@ const Dashboard = () => {
   const handleSubscribe = async () => {
     setSubscribing(true);
     try {
-      const response = await fetch('http://localhost:5000/api/fundi/subscribe', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/fundi/subscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
