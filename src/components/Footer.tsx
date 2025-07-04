@@ -1,4 +1,3 @@
-
 import { MessageCircle, Phone, Mail, MapPin } from "lucide-react";
 
 const Footer = () => {
@@ -8,10 +7,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center mr-2">
-                <span className="text-white font-bold text-sm">FB</span>
-              </div>
-              <span className="text-xl font-bold">FundisBot</span>
+              <img src="/fundi-connect-logo.jpg" alt="Fundi Connect Logo" className="w-8 h-8 rounded-lg object-contain mr-2" />
+              <span className="text-xl font-bold">Fundi Connect</span>
             </div>
             <p className="text-gray-400 mb-4">
               Connecting clients with trusted local service providers across Kenya through WhatsApp.
@@ -71,7 +68,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © 2024 FundisBot. All rights reserved. Built with ❤️ in Kenya.
+              © 2024 Fundi Connect. All rights reserved. Built with ❤️ in Kenya.
             </p>
             <div className="flex space-x-6 text-sm text-gray-400">
               <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>

@@ -14,7 +14,7 @@ const Dashboard = () => {
   const [viewMode, setViewMode] = useState<'client' | 'fundi'>('client');
   const [dashboardMode, setDashboardMode] = useState<'book' | 'offer'>('book');
   const [showServiceForm, setShowServiceForm] = useState(false);
-  const [serviceForm, setServiceForm] = useState({ name: '', description: '', price: '' });
+  const [serviceForm, setServiceForm] = useState({ name: '', description: '', price: '', whatsapp_number: '' });
   const [serviceLoading, setServiceLoading] = useState(false);
   const [serviceError, setServiceError] = useState('');
   const [services, setServices] = useState<any[]>([]);
@@ -82,8 +82,8 @@ const Dashboard = () => {
     e.preventDefault();
     setServiceLoading(true);
     setServiceError('');
-    if (!serviceForm.name || !serviceForm.price) {
-      setServiceError('Name and price are required.');
+    if (!serviceForm.name || !serviceForm.price || !serviceForm.whatsapp_number) {
+      setServiceError('Name, price, and WhatsApp number are required.');
       setServiceLoading(false);
       return;
     }
@@ -93,13 +93,14 @@ const Dashboard = () => {
         name: serviceForm.name,
         description: serviceForm.description,
         price: parseFloat(serviceForm.price),
+        whatsapp_number: serviceForm.whatsapp_number,
       },
     ]);
     if (error) {
       setServiceError(error.message);
     } else {
       setShowServiceForm(false);
-      setServiceForm({ name: '', description: '', price: '' });
+      setServiceForm({ name: '', description: '', price: '', whatsapp_number: '' });
       // Refresh services
       const { data } = await supabase.from('services').select('*').eq('fundi_id', userId);
       setServices(data || []);
@@ -361,6 +362,18 @@ const Dashboard = () => {
                     value={serviceForm.price}
                     onChange={handleServiceInput}
                     className="w-full border rounded px-3 py-2"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block font-semibold mb-1">WhatsApp Number</label>
+                  <input
+                    type="text"
+                    name="whatsapp_number"
+                    value={serviceForm.whatsapp_number}
+                    onChange={handleServiceInput}
+                    className="w-full border rounded px-3 py-2"
+                    placeholder="e.g. 254712345678"
                     required
                   />
                 </div>
